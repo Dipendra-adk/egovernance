@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+{% load static %} 
+{% block css %}
+
+.container {
+  max-width: 100%
+  width: 600px;
+  height: 0px;
+  position: absolute;
+  top: 20%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+}
+
+/* Tender details styling */
+h2,h3{
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    h2 {
+        font-size: 20px;
+    }
+    p {
+        font-size: 14px;
+    }
+    li {
+        margin-bottom: 8px;
+    }
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h2>Title:{{ tender.title }}</h2>
+  <p>Description:{{ tender.description }}</p>
+  <img src="{{ tender.image.url }}" alt="Tender Image">
+  <p>Base Price: {{tender.baseprice}}</p>
+  <p>Open Date: {{render.created_at}}</p>
+  <p>Deadline: {{ tender.deadline }}</p>
+  <p>Status: {{ tender.status}}</p>
+  <h3>Bidding done by: </h3>
+  <ul>
+    {% for bid in bids %}
+      <li>{{ bid.bidder.username }} - {{ bid.amount }}</li>
+    {% endfor %}
+  </ul>
+  {% comment %} <a href="{% url 'place_bid' tender.id %}">Place Bid</a> {% endcomment %}
+
+{% comment %} <!-- tender_detail.html -->
+<h1>{{ tender.title }}</h1>
+
+{% if tender.status == 'Closed' %}
+{% if winner %}
+    <p>Winner: {{ winner.bidder.username }}</p>
+    <p>Winning Bid: ${{ winner.amount }}</p>
+{% else %}
+    <p>No winner yet.</p>
+{% endif %}
+<p>Tender is closed.</p>
+{% else %}
+<p>Tender is still open.</p>
+{% endif %} {% endcomment %}
+
+
+<!-- tender_detail.html -->
+{% if tender.status == 'Closed' %}
+<h3> Winner Information </h3>
+    {% if winner %}
+        <p>Winner: {{ winner.bidder.username }}</p>
+        <p>Winning Bid: Rs: {{ winner.amount }}</p>
+    {% else %}
+        <p>No winner yet.</p>
+    {% endif %}
+    <p>Tender deadline is met and closed.</p>
+{% else %}
+    <p>Tender is still open.</p>
+    <a href="{% url 'place_bid' tender_id=tender.id %}" {% if tender.is_closed %}disabled{% endif %} class="button">Place Bid</a>
+{% endif %}
+<br><br><br><br><br>
+</div>
+
+{% endblock %}

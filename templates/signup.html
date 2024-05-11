@@ -1,0 +1,111 @@
+{% extends 'index.html' %}
+{%load static%}
+{% block css %}
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        body
+        {
+            background-color:maya-blue;
+            opacity:100%;
+            
+        }
+        .footer {
+            position: relative;
+            left: 0;
+            bottom: 0;
+            background:black;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            height: 80px;
+            margin-top: 5rem;
+        }    
+        
+        .footer p {
+            padding-top: 30px;
+            font-weight: bolder;
+            font-size: 17px;
+        }
+        input, .form-label-group > label {
+            height: 3.125rem;
+            padding: 0.75rem;
+        }
+        .group
+        {
+            padding: 1rem;
+        }
+        h1{
+            
+            font-size:30px;
+            font-family:fantasy;
+        }
+{% endblock css %}
+
+{% block hero %}
+    <form class="form-signin container w-40" action="" method="POST">
+        {% csrf_token %}
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal text-black">Signup</h1>
+            <p class="text-black">Signup the system to continue</p>
+        </div>
+        
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+          <strong>{{message}}</strong> 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+
+        <div class="container w-50 p-4">
+            <div class="form-label-group group d-flex flex ">
+                <input type="text" id="fname" name="fname" class="form-control" placeholder="First Name" required autofocus>
+                <input type="text" id="lname" name="lname" class="form-control mx-2" placeholder="Last Name" required autofocus>
+
+            </div>
+
+            <div class="form-label-group group">
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+            </div>
+
+            <div class="form-label-group group">
+                <input type="number" class="form-control" name="number" placeholder="Phone Number" required autofocus>
+            </div>
+            
+            <div class="form-label-group group">
+                <input type="text" class="form-control" name="address" placeholder="Address" required autofocus>
+            </div>
+
+            <div class="form-label-group group">
+                <input type="text" class="form-control" name="city" placeholder="City" required autofocus>
+            </div>
+
+
+            <div class="form-label-group group">
+                <input type="password" id="pass1" name="pass1"class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-label-group group">
+                <input type="password" id="pass2" name = "pass2" class="form-control" placeholder="Confirm Password" required>
+            </div>
+            <br><br>
+            <center>
+                <button class="btn btn-lg btn-primary btn-block w-25" type="submit">Sign up</button>
+                <a href="{% url 'login' %}" class="btn btn-lg btn-success btn-block w-50" type="submit">Already have account</a>
+            </center>
+        </div>
+
+    </form>
+{% endblock hero %}
+  

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Winner Email</title>
+</head>
+<body>
+    <h2>Congratulations! You have won the tender "{{ tender.title }}"</h2>
+    <p>Description: {{ tender.description }}</p>
+    <p>Base Price: ${{ tender.baseprice }}</p>
+    <p>Deadline: {{ tender.deadline }}</p>
+    <p>Your Winning Bid: ${{ winner.amount }}</p>
+    <p>Please contact the tender owner for further details.</p>
+</body>
+</html>
+

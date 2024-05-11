@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+{% load static  %} 
+{% block css %}
+/* Custom CSS for the Bid Form */
+
+.container {
+  width: 600px;
+  height: 0px;
+  position: absolute;
+  top: 20%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+  background-color: #000fff;
+}
+
+h2 {
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+    margin-color: blue;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 30%;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    h2 {
+        font-size: 20px;
+    }
+    input[type="text"] {
+        padding: 8px;
+    }
+    button[type="submit"] {
+        padding: 8px 16px;
+    }
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h2>Place Bid</h2>
+
+  {% for message in messages %}
+  {% comment %} {% if message.tags == 'error' %} {% endcomment %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong> 
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% comment %} {% endif %} {% endcomment %}
+    {% endfor %}
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" name="amount">
+    <button type="submit">Submit Bid</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block css %}
+.container {
+  width: 600px;
+  height: 0px;
+  position: absolute;
+  top: 18%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #333; 
+}
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    h2 {
+        font-size: 20px;
+    }
+    li {
+        margin-bottom: 8px;
+    }
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h2> Available Tenders</h2>
+  <ul>
+    {% for tender in tenders %}
+      <li><a href="{% url 'tender_detail' tender.id %}" class="button">{{ tender.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

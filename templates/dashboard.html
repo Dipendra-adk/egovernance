@@ -1,0 +1,101 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block css %}
+
+.container {
+  width: 600px;
+  height: 0px;
+  position: absolute;
+  top: 20%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+}
+
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+
+.profile-section p {
+    margin-bottom: 10px;
+}
+
+
+.bids-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.bids-section li {
+    margin-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    h1 {
+        font-size: 20px;
+    }
+    .profile-section p,
+    .bids-section li {
+        font-size: 14px;
+    }
+}
+
+{% endblock %}
+{% block hero %}
+<div class="container">
+  <h1>Welcome to Your Dashboard, {{ user.username }}!</h1>
+  
+  <!-- User Profile -->
+  <div class="profile-section">
+    <h2>My Profile</h2>
+    <p>Name:{{user.username }}</p>
+    <p>Email: {{user.email }}</p>
+  </div>
+  
+  {% comment %} <!-- Recent Activity -->
+  <div class="activity-section">
+    <h2>Recent Activity</h2>
+    <ul>
+      {% for activity in recent_activity %}
+        <li>{{ activity }}</li>
+      {% empty %}
+        <li>No recent activity</li>
+      {% endfor %}
+    </ul>
+  </div> {% endcomment %}
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">
+          {{ message }}
+          {% if message.tender_name %}
+            <p>Tender Name: {{ message.tender_name }}</p>
+            <p>Bid Amount: ${{ message.bid_amount }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <!-- My Bids -->
+  <div class="bids-section">
+    <h2>My Bids </h2>
+    <ul>
+      {% for bid in my_bids %}
+       <li>Bid on: {{ bid.tender.title }} - Amount: {{ bid.amount }}</li>
+       {% comment %} <li><a href="{% url 'tender_detail' tender.id %}">{{ tender.title }}</a></li> {% endcomment %}
+      {% empty %}
+        <li>No bids found</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+ 
+{% endblock %}

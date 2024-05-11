@@ -1,0 +1,13 @@
+from django.core.management.base import BaseCommand
+from app.models import Tender
+from django.utils import timezone
+
+class Command(BaseCommand):
+    help = 'Close expired tenders'
+
+    def handle(self, *args, **options):
+        expired_tenders = Tender.objects.filter(deadline__lte=timezone.now(), status='open')
+        for tender in expired_tenders:
+            tender.status = 'closed'
+            tender.save()
+            self.stdout.write(self.style.SUCCESS(f"Tender {tender.id} closed."))
