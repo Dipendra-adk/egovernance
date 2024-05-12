@@ -54,7 +54,8 @@
         }
 {% endblock css %}
 
-{% block hero %}
+{% block body %}
+<br><br><br><br><br>
     <form class="form-signin container w-40" action="" method="POST">
         {% csrf_token %}
         <div class="text-center mb-4">
@@ -107,5 +108,6 @@
         </div>
 
     </form>
-{% endblock hero %}
+    <br><br><br>
+{% endblock body %}
   

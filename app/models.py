@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
+
 class Tender(models.Model):
     CATEGORIES = [
         ('Goods Procurement', 'Goods Procurement'),
@@ -37,6 +39,7 @@ class Tender(models.Model):
             self.save() # save the updated status
             return self.status == 'Closed'
     
+
     
     # @property
     # def is_closed(self):
@@ -70,3 +73,13 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Message from {self.name}"
+    
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bid = models.ForeignKey(Bid, on_delete=models.CASCADE)
+    tender = models.ForeignKey(Tender, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - Bid win notification"    

@@ -1,0 +1,36 @@
+{% extends 'index.html' %} 
+{% load static %} 
+{% block title %}Admin Dashboard{% endblock %}
+{% block body %}
+<br><br><br><br><br><br><br>
+    <h1>Admin Dashboard</h1>
+    {% comment %} <a href="{% url 'add_tender' %}">Add Tender</a>
+    <ul>
+        {% for tender in tenders %}
+            <li>{{ tender.title }} - <a href="{% url 'update_tender' tender.id %}">Edit</a> | <a href="{% url 'delete_tender' tender.id %}">Delete</a></li>
+        {% endfor %}
+    </ul> {% endcomment %}
+<br><br>
+    <table>
+        <thead>
+            <tr>
+                <th>Tender Name</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Winner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tender in tender_data %}
+                <tr>
+                    <td>{{ tender.title }}</td>
+                    <td>{{ tender.category }}</td>
+                    <td>{{ tender.status }}</td>
+                    <td>{{ tender.winner }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+{% endblock %}

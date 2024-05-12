@@ -1,0 +1,10 @@
+<li style="padding-top: 30px;" class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% for category in categories %}
+        <a class="dropdown-item" href="{% url 'search_by_category' category %}">{{ category }}</a>
+        {% endfor %}
+    </div>
+</li>

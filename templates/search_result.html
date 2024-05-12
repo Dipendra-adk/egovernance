@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results for "{{ query }}"</h1>
+    <ul>
+    {% for tender in results %}
+        <li>{{ tender.title }} - {{ tender.category }} - {{ tender.description }}</li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -47,10 +47,31 @@ h1 {
 }
 
 {% endblock %}
-{% block hero %}
+{% block body %}
 <div class="container">
   <h1>Welcome to Your Dashboard, {{ user.username }}!</h1>
   
+  {% comment %} {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">
+        {{ message }}
+        {% if message.tender_name %}
+          <p>Tender Name: {{ message.tender_name }}</p>
+          <p>Bid Amount: ${{ message.bid_amount }}</p>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %} {% endcomment %}
+
+
+<ul>
+    {% for notification in user_notifications %}
+        <h2>Bid Win Notifications</h2>
+        <li>{{ notification.bid.tender.title }} - You won the bid!</li>
+    {% endfor %}
+</ul>
   <!-- User Profile -->
   <div class="profile-section">
     <h2>My Profile</h2>
@@ -70,19 +91,7 @@ h1 {
     </ul>
   </div> {% endcomment %}
 
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">
-          {{ message }}
-          {% if message.tender_name %}
-            <p>Tender Name: {{ message.tender_name }}</p>
-            <p>Bid Amount: ${{ message.bid_amount }}</p>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+
   
   <!-- My Bids -->
   <div class="bids-section">
