@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+from phonenumber_field.modelfields import PhoneNumberField
+from django.urls import reverse
+# import uuid
 
 
 class Tender(models.Model):
@@ -20,15 +22,38 @@ class Tender(models.Model):
         ('Active','Active'),
         ('Closed', 'Closed'),
     ]
+    # id = models.UUIDField(
+    #     primary_key=True,
+    #     default=uuid.uuid4,
+    #     editable=False
+    # )
     
     category = models.CharField(max_length = 30, choices = CATEGORIES, default = 'Other')
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="uploads")
+    #image = models.ImageField(upload_to="uploads")
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField()
     baseprice = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_tenders')
+    
+    # Contractor info 
+    contractor_company_name = models.CharField(max_length=200,default='Your Default Value')
+    contractor_name = models.CharField(max_length=150)
+    contractor_email = models.EmailField(max_length=200)
+    contractor_phone = PhoneNumberField(region="NP", max_length=15)
+
+    
+    planning_phase1_date = models.DateField()
+    planning_phase1_payment = models.IntegerField()
+    planning_phase2_date = models.DateField()
+    planning_phase2_payment = models.IntegerField()
+    planning_final_date = models.DateField()
+    planning_final_payment = models.IntegerField()
+    
+    terms_and_conditions = models.TextField()
+
+
+    #owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_tenders')
     status = models.CharField(max_length=7, choices=STATUS, default='Active')
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='won_tenders')
     
@@ -38,7 +63,7 @@ class Tender(models.Model):
             self.status = 'Closed' # update the status to closed
             self.save() # save the updated status
             return self.status == 'Closed'
-    
+        return False
 
     
     # @property
@@ -52,7 +77,19 @@ class Tender(models.Model):
 
     def __str__(self):
         return self.title  
-        
+    
+    def get_absolute_url(self):
+        return reverse("tender_detail", args=[str(self.id)])    
+
+class Bidder(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='bidder_profile')
+    company_name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    phone = PhoneNumberField(region="NP", max_length=13)
+    address = models.TextField()
+    
+    def __str__(self):
+        return self.user.username + " - " + self.company_name
     
 
 class Bid(models.Model):
@@ -63,7 +100,7 @@ class Bid(models.Model):
     
     
     def __str__(self):
-        return f"Bid for {self.tender.title} by {self.bidder}"
+        return f"Bid for {self.tender.title} by {self.bidder.username}"
 
 
 class Contact(models.Model):

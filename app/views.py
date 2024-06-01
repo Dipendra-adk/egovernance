@@ -9,13 +9,13 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .forms import TenderForm
-
+from .models import Tender
 
 
 
 def tender_list(request):
     tenders = Tender.objects.all()
-    return render(request, 'tender_list.html', {'tenders': tenders})
+    return render(request, 'tender/tender_list.html', {'tenders': tenders})
 
 
 def tender_detail(request, tender_id):
@@ -28,26 +28,48 @@ def tender_detail(request, tender_id):
         'bids': bids,
         'winner': highest_bid,  # Pass the winner data to the template
     }
-    return render(request, 'tender_detail.html', context)
+    return render(request, 'tender/tender_detail.html', context)
 
 @login_required(login_url='login')
+# def place_bid(request, tender_id):
+#     if request.method == 'POST':
+#         amount = request.POST.get('amount')
+#         bidder = request.user
+#         tender = Tender.objects.get(id=tender_id)
+#         baseprice = tender.baseprice
+#         if int(amount) < baseprice:
+#             messages.error(request,'Bid must be greater than or equal to the base price!')
+#             return redirect('tender_detail', tender_id=tender_id)
+        
+#         bid = Bid.objects.create(tender=tender, bidder=bidder, amount=amount)
+#         return redirect('tender_detail', tender_id=tender_id)
+#     else:
+#         return render(request, 'tender/place_bid.html', {'tender_id': tender_id})
 def place_bid(request, tender_id):
+    tender = get_object_or_404(Tender, id=tender_id)
+    
     if request.method == 'POST':
         amount = request.POST.get('amount')
-        bidder = request.user
-        tender = Tender.objects.get(id=tender_id)
-        baseprice = tender.baseprice
-        if int(amount) < baseprice:
-            messages.error(request,'Bid must be greater than or equal to the base price!')
+        try:
+            amount = float(amount)
+        except ValueError:
+            messages.error(request, 'Invalid bid amount!')
             return redirect('tender_detail', tender_id=tender_id)
-        
+
+        if amount < tender.baseprice:
+            messages.error(request, 'Bid must be greater than or equal to the base price!')
+            return redirect('tender_detail', tender_id=tender_id)
+
+        bidder = request.user
+        # Create Bid object with a valid reference to the tender
         bid = Bid.objects.create(tender=tender, bidder=bidder, amount=amount)
+        messages.success(request, 'Bid placed successfully!')
         return redirect('tender_detail', tender_id=tender_id)
-    else:
-        return render(request, 'place_bid.html', {'tender_id': tender_id})
+    
+    return render(request, 'tender/place_bid.html', {'tender': tender})
 
 
-# Example code to create notification when a bid is won
+#  to create notification when a bid is won
 def process_winning_bid(bid):
     # Assuming bid is won and winner is determined
     Notification.objects.create(
@@ -121,37 +143,56 @@ def select_winner(request, tender_id):
 
 def signup(request):
     if request.method == 'POST':
-            fname = request.POST.get('fname')
-            lname = request.POST.get('lname' )
-            email = request.POST.get('email')
-            number = request.POST.get('number')
-            address = request.POST.get('address')
-            city = request.POST.get('city')
-            pass1 = request.POST.get('pass1')
-            pass2 = request.POST.get('pass2') 
-            username = lname .lower() + fname.lower()
-            
-             # Checking password match
-            if pass1 != pass2:
-                messages.error(request,'Passwords do not match!')
-                return render(request,'signup.html')
-            
-            if User.objects.filter(username=username).exists():
-                messages.warning(request, "Username is already taken.")
-                return render(request, 'signup.html')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        number = request.POST.get('number')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        pass1 = request.POST.get('pass1')
+        pass2 = request.POST.get('pass2')
+        company_name = request.POST.get('company_name')  # Get company_name field
+        # Create a dictionary to hold all form field values for Bidder model
+        bidder_data = {
+            'company_name': company_name,
+            'email': email,
+            'phone': number,
+            'address': address
+        }
         
-            myuser = User.objects.create_user(username,email,pass2)
-            myuser.first_name = fname
-            myuser.last_name = lname
-            myuser.save()
-            
-            user = authenticate(request , username = username , password = pass1)
-            if user is not None:
-                auth_login(request,user)
-                messages.success(request,'User created and logged in successfully.')
-                return redirect('/')
+        # Checking password match
+        if pass1 != pass2:
+            messages.error(request, 'Passwords do not match!')
+            return render(request, 'signup.html')
+        
+        username = fname.lower() + lname.lower()
+        
+        # Checking if username is already taken
+        if User.objects.filter(username=username).exists():
+            messages.warning(request, "Username is already taken.")
+            return render(request, 'signup.html')
+
+        # Creating the user
+        myuser = User.objects.create_user(username, email, pass2)
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.save()
+        
+        # # Creating Bidder profile
+        # bidder_form = BidderForm(bidder_data)
+        # if bidder_form.is_valid():
+        #     bidder = bidder_form.save(commit=False)
+        #     bidder.user = myuser
+        #     bidder.save()
+
+        # Authenticate and login the user
+        user = authenticate(request, username=username, password=pass1)
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, 'User created and logged in successfully.')
+            return redirect('/')
     
-    return render(request,'signup.html')
+    return render(request, 'signup.html')
 
 def handlelogin(request):
         if request.method == "POST":
@@ -180,9 +221,9 @@ def index(request):
     categories = Tender.objects.values_list('category', flat=True).distinct()
     return render(request, 'index.html', {'categories': categories})
 
-def category(request, category):
-    tenders = Tender.objects.filter(category=category)
-    return render(request, 'category.html', {'results': tenders, 'query': category})
+# def category(request, category):
+#     tenders = Tender.objects.filter(category=category)
+#     return render(request, 'category.html', {'results': tenders, 'query': category})
 
 def goal(request):
     return render(request, 'goal.html')
@@ -237,7 +278,7 @@ def admin_dashboard(request):
             'winner': tender.winner.username if tender.winner else "Not yet decided"
         })
 
-    return render(request, 'admin/admin_dashboard.html', {'tender_data': tender_data})
+    return render(request, 'admin/admin_dashboard.html', {'tender_data': tender_data,'tenders': tenders})
 
 # def admin_dashboard(request):
 #     tenders_by_category = {}
@@ -262,6 +303,9 @@ def admin_dashboard(request):
 @login_required
 @user_passes_test(admin_user_check)
 def add_tender(request):
+    categories = Tender.CATEGORIES
+    status_choices = Tender.STATUS
+          
     if request.method == 'POST':
         form = TenderForm(request.POST)
         if form.is_valid():
@@ -269,7 +313,9 @@ def add_tender(request):
             return redirect('admin_dashboard')  # Redirect to admin dashboard after adding tender
     else:
         form = TenderForm()
-    return render(request, 'admin/add_tender.html', {'form': form})
+    
+  
+    return render(request, 'admin/tender_create.html', {'form': form, 'categories': categories, 'status_choices': status_choices})
 
 @login_required
 @user_passes_test(admin_user_check)
@@ -282,7 +328,7 @@ def update_tender(request, pk):
             return redirect('admin_dashboard')  # Redirect to admin dashboard after updating tender
     else:
         form = TenderForm(instance=tender)
-    return render(request, 'admin/update_tender.html', {'form': form})
+    return render(request, 'admin/tender_update.html', {'form': form, 'tender': tender})
 
 @login_required
 @user_passes_test(admin_user_check)
@@ -291,7 +337,7 @@ def delete_tender(request, pk):
     if request.method == 'POST':
         tender.delete()
         return redirect('admin_dashboard')  # Redirect to admin dashboard after deleting tender
-    return render(request, 'admin/delete_tender.html', {'tender': tender})
+    return render(request, 'admin/tender_delete.html', {'tender': tender})
 
 def search(request):
     query = request.GET.get('query')

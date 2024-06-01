@@ -55,11 +55,13 @@ a {
 {% block body %}
 <div class="container">
   <h2> Available Tenders</h2>
+  <hr>
   <ul>
     {% for tender in tenders %}
-      <img src="{{ tender.image.url }}" alt="{{ tender.title }}"> 
-      <li>{{ tender.title }} -
-        <a href="{% url 'tender_detail' tender.id %}" class="button">Make a Bid</a></li>
+      {% comment %} <img src="{{ tender.image.url }}" alt="{{ tender.title }}">  {% endcomment %}
+      <li><h3><b>Title:</b> {{ tender.title }}</h3>
+         <h4><b>Company Name:</b> {{ tender.contractor_company_name }}</h4>
+        <a href="{% url 'tender_detail' tender.id %}" class="button">View Detail</a></li>
       {% comment %} <li><a href="{% url 'tender_detail' tender.id %}" class="button">{{ tender.title }}</a></li> {% endcomment %}
     {% endfor %}
   </ul>

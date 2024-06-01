@@ -1,0 +1,132 @@
+{% extends 'index.html' %} 
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block title %}Add Tender{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+<br><br><br><br><br><br><br>
+{% if form.errors %}
+<div class="alert alert-danger">
+    <strong>Error:</strong> Please correct the following errors:
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+    {% if user.is_authenticated %}
+<!--  -->
+
+<h1>New Tender</h1>
+<form method="post" action="{% url 'add_tender' %}" >
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select name="category" id="category" class="form-control">
+        {% for category_key, category_value in categories %}
+        <option value="{{ category_key }}">{{ category_value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" class="form-control" required>
+    </div>
+
+    
+    <!-- Contractor Info -->
+    <div class="form-group">
+      <label for="contractor_company_name">Contractor Company Name:</label>
+      <input type="text" name="contractor_company_name" id="contractor_company_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="contractor_name">Contractor Name:</label>
+      <input type="text" name="contractor_name" id="contractor_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="contractor_email">Contractor Email:</label>
+      <input type="email" name="contractor_email" id="contractor_email" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="contractor_phone">Contractor Phone:</label>
+      <input type="tel" name="contractor_phone" id="contractor_phone" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="planning_phase1_date">planning phase1 date:</label>
+        <input type="date" name="planning_phase1_date" id="planning_phase1_date" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_phase1_payment">planning phase1 payment:</label>
+        <input type="number" name="planning_phase1_payment" id="planning_phase1_payment" class="form-control" required>
+      </div>
+    <div class="form-group">
+        <label for="planning_phase2_date">planning phase2 date:</label>
+        <input type="date" name="planning_phase2_date" id="planning_phase2_date" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_phase2_payment">planning phase2 payment:</label>
+        <input type="number" name="planning_phase2_payment" id="planning_phase2_payment" class="form-control" required>
+      </div>
+    <div class="form-group">
+        <label for="planning_final_date">planning final date:</label>
+        <input type="date" name="planning_final_date" id="planning_final_date" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_final_payment">planning final payment:</label>
+        <input type="number" name="planning_final_payment" id="planning_final_payment" class="form-control" required>
+      </div>
+      
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea name="description" id="description" class="form-control" rows="5" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="deadline">Deadline:</label>
+      <input type="datetime-local" name="deadline" id="deadline" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="baseprice">Base Price:</label>
+      <input type="number" name="baseprice" id="baseprice" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <select name="status" id="status" class="form-control">
+            {% for status_key, status_value in status_choices %}
+            <option value="{{ status_key }}">{{ status_value }}</option>
+            {% endfor %}
+        </select>
+      </div>
+    
+    <div class="form-group">
+      <label for="terms_and_conditions">Terms and Conditions:</label>
+      <textarea name="terms_and_conditions" id="terms_and_conditions" class="form-control" rows="5"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  
+
+<!--  -->
+{% else %}
+
+<div class="login-cabin">
+    <h1>You are not Logged in</h1>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'signup' %}">Sign up</a>
+</div>
+{% endif %}
+<!--  -->
+
+<script src="{% static 'tender/main.js' %}"></script>
+
+    <br><br><br><br><br><br><br>
+</div>
+</div>
+</div>
+{% endblock body %}

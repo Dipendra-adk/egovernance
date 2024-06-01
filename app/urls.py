@@ -21,7 +21,7 @@ urlpatterns = [
     path('tender/', views.tender_list, name='tender_list'),
     path('tender/<int:tender_id>/', views.tender_detail, name='tender_detail'),
     path('tender/<int:tender_id>/bid/', views.place_bid, name='place_bid'),
-    path('category',views.category,name='category'),
+    # path('category',views.category,name='category'),
     #path('send_email_winner/<int:tender_id>/', views.send_email_winner, name='send_email_winner'),
 
 

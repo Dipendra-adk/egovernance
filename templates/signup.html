@@ -1,57 +1,7 @@
 {% extends 'index.html' %}
 {%load static%}
 {% block css %}
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-        body
-        {
-            background-color:maya-blue;
-            opacity:100%;
-            
-        }
-        .footer {
-            position: relative;
-            left: 0;
-            bottom: 0;
-            background:black;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            height: 80px;
-            margin-top: 5rem;
-        }    
-        
-        .footer p {
-            padding-top: 30px;
-            font-weight: bolder;
-            font-size: 17px;
-        }
-        input, .form-label-group > label {
-            height: 3.125rem;
-            padding: 0.75rem;
-        }
-        .group
-        {
-            padding: 1rem;
-        }
-        h1{
-            
-            font-size:30px;
-            font-family:fantasy;
-        }
 {% endblock css %}
 
 {% block body %}
@@ -91,6 +41,10 @@
 
             <div class="form-label-group group">
                 <input type="text" class="form-control" name="city" placeholder="City" required autofocus>
+            </div>
+
+            <div class="form-label-group group">
+                <input type="text" class="form-control" name="company_name" placeholder="Company Name" required autofocus>
             </div>
 
 

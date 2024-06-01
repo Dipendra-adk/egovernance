@@ -11,90 +11,92 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <title>{% block title%} Tender {% endblock %}</title>
-    {%load static%}
+    <title>{% block title%}Tender{% endblock %}</title>
     <style>
    
       {%block css%} {% endblock css %}
     </style>
   
 </head>
-<body>
+<body>  
   <div class="container-fluid main">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}"><span class="sp">Ten</span>der<span class="sp">.</span></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="nav navbar-nav d-flex flex-row mx-2 justify-content-end">
-              <li style="padding-top: 30px;"><a href="{% url 'home' %}">Home</a></li>
-              <li style="padding-top: 30px;"><a href="{% url 'tender_list' %}">Tenders</a></li>
-              {% comment %} <li style="padding-top: 30px;" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categories
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  {% for category in categories %}
-                  <a href="#">{{ category.category }}</a>
-                   {% endfor %}
-                    
-                </div>
-            </li> {% endcomment %}
-              <li style="padding-top: 30px;"><a href="{% url 'goal' %}">Goals</a></li>
-              <li style="padding-top: 30px;"><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
+        <a class="navbar-brand" style="" href="{% url 'home' %}"><span class="sp">Ten</span>der</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="nav navbar-nav d-flex flex-row mx-2 justify-content-end">
+            <li style="padding-top: 30px;"><a href="{% url 'home' %}">Home</a></li>
+            <li style="padding-top: 30px;"><a href="{% url 'tender_list' %}">Tenders</a></li>
 
-            <div class="d-flex justify-content-end m-2 me-0" style="display: flex; margin: 0.5rem;">
-              <div class="search" style="flex: 2;">
-                  <form method="get" action="/search/" style="display: flex;">
-                      <input class="rounded-pill" type="search" name="query" placeholder="Search..." style="flex: 1; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 0.25rem;">
-                      <button class="rounded-pill bg-success text-white" style="padding: 0.5rem 1rem; margin-left: 2.5rem; background-color: #00bf; color: #fff; border: none; border-radius: 1 rem;">Search</button>
-                  </form>
+
+
+            {% comment %} <li style="padding-top: 30px;" class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% for category in categories %}
+                <a href="#">{{ category.category }}</a>
+                {% endfor %}    
               </div>
+              </li> {% endcomment %}
+
+
+            <li style="padding-top: 30px;"><a href="{% url 'goal' %}">Goals</a></li>
+            <li style="padding-top: 30px;"><a href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+          <div class="d-flex justify-content-end align-items-center" style="">
+            <div class="search" style="flex: 2;">
+              <form method="get" action="/search/" style="display: flex;">
+                <input class="rounded-pill" type="search" name="query" placeholder="Search..." style="flex: 1; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 0.25rem;">
+                <button class="rounded-pill bg-success text-white" style="padding: 0.5rem 1rem; margin-left: 2.5rem; background-color: #00bf; color: #fff; border: none; border-radius: 1 rem;">Search</button>
+              </form>
+            </div>
           </div>
- 
-        <ul class="nav navbar-nav d-flex flex-row mx-4 justify-content-end">
-          {%block navbar%} {%endblock%}
-        </ul>
-        {% if user.is_authenticated %}
-          <div class="dropdown" style="padding-top:40px;margin-left: 270px;">
+          <ul class="nav navbar-nav d-flex flex-row mx-4 justify-content-end">
+            {%block navbar%} {%endblock%}
+          </ul>
+          {% if user.is_authenticated %}
+          <div class="dropdown" style="padding-top:40px;margin-left: 400px;">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{request.user}}
             </button>
             <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+
+
               {% comment %} <a href="{% url 'user_bids' %}" class="dropdown-item">My Bids</a> {% endcomment %}
+              
+
+
               <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard </a>
-              {%if request.user.username == "Dipendra"%}
-                <a class="dropdown-item" href="{% url 'admin_login' %}">Admin </a>
-                <a class="dropdown-item" href="{% url 'admin_dashboard' %}">Admin Dashboard </a>
+                {%if request.user.is_staff %}
+              <a class="dropdown-item" href="{% url 'admin_login' %}">Admin </a>
+              <a class="dropdown-item" href="{% url 'admin_dashboard' %}">Admin Dashboard </a>
               {%endif%}
               <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
             </div>
           </div>
-        {% else %}
-        
+          {% else %}
           <ul class="nav navbar-nav d-flex flex-row mx-4 justify-content-end">
             <li style="padding-top: 23px">
-                <a href="{% url 'signup' %}" class="btn btn-success spbtns" style="width: 150px"><i class="fa-solid fa-user-plus fa-beat" style="color: #ffffff"></i> Sign Up</a>
-              </li>
-              <li style="padding-top: 23px">
-                <a href="{% url 'login' %}" class="btn btn-success spbtns" style="width: 150px"
-                ><i class="fa-solid fa-right-to-bracket fa-beat" style="color: #ffffff"></i>
-                Login</a>
-              </li>
+              <a href="{% url 'signup' %}" class="btn btn-success spbtns" style="width: 150px"><i class="fa-solid fa-user-plus fa-beat" style="color: #ffffff"></i> Sign Up</a>
+            </li>
+            <li style="padding-top: 23px">
+              <a href="{% url 'login' %}" class="btn btn-success spbtns" style="width: 150px"><i class="fa-solid fa-right-to-bracket fa-beat" style="color: #ffffff"></i>Login</a>
+            </li>
           </ul>
-          {% endif %}
-        
+          {% endif %}       
         </div>
       </div>
-  </nav>
-    
+    </nav>   
     {% block hero %}
     {% endblock hero %}
   </div>
- 
+
+
   
   {% block body%} {% endblock body %}
       <footer class="font-small bg-dark text-light position:fixed bottom:0">

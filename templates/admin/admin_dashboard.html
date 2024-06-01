@@ -1,15 +1,23 @@
 {% extends 'index.html' %} 
 {% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% block title %}Admin Dashboard{% endblock %}
 {% block body %}
 <br><br><br><br><br><br><br>
+<div class="container">
     <h1>Admin Dashboard</h1>
-    {% comment %} <a href="{% url 'add_tender' %}">Add Tender</a>
+    {% comment %} <a href="{% url 'add_tender' %}">Create Tender</a>
     <ul>
         {% for tender in tenders %}
             <li>{{ tender.title }} - <a href="{% url 'update_tender' tender.id %}">Edit</a> | <a href="{% url 'delete_tender' tender.id %}">Delete</a></li>
         {% endfor %}
     </ul> {% endcomment %}
+
+    <div class="user-identifier">
+        <p>Hi {{ user.username }}, Welcome.</p>
+    </div>
+    <h3> <a href="{% url 'add_tender' %}">Create New Tender</a>
+    </h3>
 <br><br>
     <table>
         <thead>
@@ -21,16 +29,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for tender in tender_data %}
+            {% for tender in tenders %}
                 <tr>
                     <td>{{ tender.title }}</td>
                     <td>{{ tender.category }}</td>
                     <td>{{ tender.status }}</td>
                     <td>{{ tender.winner }}</td>
+                    <td><button type="button"><a href="{% url 'update_tender' pk=tender.pk %}">Update</a></button> - 
+                        <button type="button"><a href="{% url 'delete_tender' pk=tender.pk %}">Delete</a></button></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    
-    
+</div>
+<br><br><br><br><br><br><br>
 {% endblock %}

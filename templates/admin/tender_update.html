@@ -1,0 +1,117 @@
+{% extends 'index.html' %} 
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block title %}Update Tender{% endblock %}
+{% block body %}
+<br><br><br><br><br><br><br>
+     {% if tender %}
+    <h1>Update Tender</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+    {% else %}
+    <p>Tender not found.</p>
+    {% endif %}
+
+    
+    {% comment %} <h1>Update </h1>
+
+{% if tender %}
+<form method="post" action="{% url 'update_tender' pk=tender.pk %}" >
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select name="category" id="category" class="form-control" value="{{ tender.category }}">
+        {% for category_key, category_value in categories %}
+        <option value="{{ category_key }}">{{ category_value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <!-- Example: If the model has a field named 'title' -->
+
+
+      <input type="text" name="title" id="title" class="form-control" value="{{ tender.title }}" required>
+    </div>
+
+    
+    <!-- Contractor Info -->
+    <div class="form-group">
+      <label for="contractor_company_name">Contractor Company Name:</label>
+      <input type="text" name="contractor_company_name" id="contractor_company_name" class="form-control" value="{{ tender.contractor_company_name }}">
+    </div>
+    <div class="form-group">
+      <label for="contractor_name">Contractor Name:</label>
+      <input type="text" name="contractor_name" id="contractor_name" class="form-control"value="{{ tender.contractor_name }}">
+    </div>
+    <div class="form-group">
+      <label for="contractor_email">Contractor Email:</label>
+      <input type="email" name="contractor_email" id="contractor_email" class="form-control" value="{{ tender.contractor_email }}">
+    </div>
+    <div class="form-group">
+      <label for="contractor_phone">Contractor Phone:</label>
+      <input type="tel" name="contractor_phone" id="contractor_phone" class="form-control" value="{{ tender.contractor_phone }}">
+    </div>
+    <div class="form-group">
+        <label for="planning_phase1_date">planning phase1 date:</label>
+        <input type="date" name="planning_phase1_date" id="planning_phase1_date" class="form-control" value="{{ tender.planning_phase1_date }}" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_phase1_payment">planning phase1 payment:</label>
+        <input type="number" name="planning_phase1_payment" id="planning_phase1_payment" class="form-control" value="{{ tender.planning_phase1_payment }}" required>
+      </div>
+    <div class="form-group">
+        <label for="planning_phase2_date">planning phase2 date:</label>
+        <input type="date" name="planning_phase2_date" id="planning_phase2_date" class="form-control" value="{{ tender.planning_phase2_date }}" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_phase2_payment">planning phase2 payment:</label>
+        <input type="number" name="planning_phase2_payment" id="planning_phase2_payment" class="form-control" value="{{ tender.planning_phase2_payment }}" required>
+      </div>
+    <div class="form-group">
+        <label for="planning_final_date">planning final date:</label>
+        <input type="date" name="planning_final_date" id="planning_final_date" class="form-control" value="{{ tender.planning_final_date }}" required>
+      </div>
+      <div class="form-group">
+        <label for="planning_final_payment">planning final payment:</label>
+        <input type="number" name="planning_final_payment" id="planning_final_payment" class="form-control" value="{{ tender.planning_final_payment }}" required>
+      </div>
+      
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea name="description" id="description" class="form-control" rows="5" value="{{ tender.description }}" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="deadline">Deadline:</label>
+      <input type="datetime-local" name="deadline" id="deadline" class="form-control" value="{{ tender.deadline }}" required>
+    </div>
+    <div class="form-group">
+      <label for="baseprice">Base Price:</label>
+      <input type="number" name="baseprice" id="baseprice" class="form-control" value="{{ tender.baseprice }}" required>
+    </div>
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <select name="status" id="status" class="form-control" value="{{ tender.status }}" >
+            {% for status_key, status_value in status_choices %}
+            <option value="{{ status_key }}">{{ status_value }}</option>
+            {% endfor %}
+        </select>
+      </div>
+    
+    <div class="form-group">
+      <label for="terms_and_conditions">Terms and Conditions:</label>
+      <textarea name="terms_and_conditions" id="terms_and_conditions" class="form-control" rows="5" value="{{ tender.terms_and_conditions }}"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% else %}
+<p>Tender not found.</p>
+{% endif %} {% endcomment %}
+
+    <br><br><br><br><br><br><br>
+{% endblock %}
