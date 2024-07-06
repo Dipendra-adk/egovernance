@@ -33,6 +33,14 @@ h1 {
 .bids-section li {
     margin-bottom: 10px;
 }
+.cont{
+  border: 2px solid #ccc;
+  padding: 15px;
+  margin: 10px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  width: 650px;
+}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
@@ -75,9 +83,11 @@ h1 {
   <!-- User Profile -->
   <div class="profile-section">
     <h2>My Profile</h2>
+    <div class="cont">
     <p>Name:{{user.username }}</p>
     <p>Email: {{user.email }}</p>
     <p>Company Name: {{user.company_name}}</p>
+    </div>
   </div>
   
   {% comment %} <!-- Recent Activity -->
@@ -98,14 +108,17 @@ h1 {
   <div class="bids-section">
     <h2>My Bids </h2>
     <ul>
+      <div class="cont">
       {% for bid in my_bids %}
        <li>Bid on: {{ bid.tender.title }} - Amount: {{ bid.amount }}</li>
        {% comment %} <li><a href="{% url 'tender_detail' tender.id %}">{{ tender.title }}</a></li> {% endcomment %}
       {% empty %}
         <li>No bids found</li>
       {% endfor %}
+      </div>
     </ul>
   </div>
+  <br><br><br><br><br><br>
 </div>
  
 {% endblock %}

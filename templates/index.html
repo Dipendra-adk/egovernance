@@ -18,8 +18,108 @@
     </style>
   
 </head>
-<body>  
-  <div class="container-fluid main">
+<body>
+  {% comment %} <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}" style="color: #333; font-weight: bold;"><span class="sp">Ten</span> dor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}" style="color: #555;">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tender_list' %}" style="color: #555;">Tendors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'goal' %}" style="color: #555;">Goals</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}" style="color: #555;">Contact</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0 ml-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="border-color: #ccc;">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #555;">
+                {{ request.user }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <a class="dropdown-item" href="{% url 'dashboard' %}" style="color: #333;">Dashboard</a>
+                  {% if request.user.is_staff %}
+                <a class="dropdown-item" href="{% url 'admin_dashboard' %}" style="color: #333;">Admin Dashboard</a>
+                  {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout' %}" style="color: #333;">Logout</a>
+              </div>
+              </li>
+                          {% else %}
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{% url 'signup' %}" style="color: #555;">Sign Up</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{% url 'login' %}" style="color: #555;">Login</a>
+                              </li>
+                          {% endif %}
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+        </header> {% endcomment %}
+
+          <nav>
+              <div>
+                  <h1><a class="navbar-brand" href="{% url 'home' %}" style="color: #333; font-weight: bold;"><span class="text-primary">Ten</span>Der</a></h1>
+              </div>
+              <ul>
+                  <li><a href="{% url 'home' %}">Home</a></li>
+                  <li><a href="{% url 'tender_list' %}">Tender</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
+              </ul>
+              <div class="search-container">
+                <form method="get" action="/search/" style="display: flex;">
+                  <input class="rounded-pill" type="search" name="query" placeholder="Search Tenders..." style="flex: 1; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 0.25rem;">
+                  <button class="rounded-pill bg-success text-white" style="padding: 0.5rem 1rem; margin-left: 2.5rem; background-color: #00bf; color: #fff; border: none; border-radius: 1 rem;">Search</button>
+                </form>
+              </div>
+              <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #555;">
+                    {{ request.user }}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <a class="dropdown-item" href="{% url 'dashboard' %}" style="color: #333;">Dashboard</a>
+                      {% if request.user.is_staff %}
+                    <a class="dropdown-item" href="{% url 'admin_dashboard' %}" style="color: #333;">Admin Dashboard</a>
+                      {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}" style="color: #333;">Logout</a>
+                  </div>
+                  </li>
+                              {% else %}
+                              <div>
+                                <span class="signup"><a href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Signup</a></span>
+                                <span class="login"><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></span>
+                            </div>
+                              {% endif %}
+                          </ul>           
+          </nav>
+
+          
+
+
+
+
+  {% comment %} <div class="container-fluid main">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" style="" href="{% url 'home' %}"><span class="sp">Ten</span>der</a>
@@ -29,7 +129,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav navbar-nav d-flex flex-row mx-2 justify-content-end">
             <li style="padding-top: 30px;"><a href="{% url 'home' %}">Home</a></li>
-            <li style="padding-top: 30px;"><a href="{% url 'tender_list' %}">Tenders</a></li>
+            <li style="padding-top: 30px;"><a href="{% url 'tender_list' %}">Tenders</a></li> {% endcomment %}
 
 
 
@@ -44,7 +144,7 @@
               </div>
               </li> {% endcomment %}
 
-
+{% comment %} 
             <li style="padding-top: 30px;"><a href="{% url 'goal' %}">Goals</a></li>
             <li style="padding-top: 30px;"><a href="{% url 'contact' %}">Contact</a></li>
           </ul>
@@ -64,13 +164,13 @@
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{request.user}}
             </button>
-            <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton"> {% endcomment %}
 
 
               {% comment %} <a href="{% url 'user_bids' %}" class="dropdown-item">My Bids</a> {% endcomment %}
               
 
-
+{% comment %} 
               <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard </a>
                 {%if request.user.is_staff %}
               <a class="dropdown-item" href="{% url 'admin_login' %}">Admin </a>
@@ -94,17 +194,44 @@
     </nav>   
     {% block hero %}
     {% endblock hero %}
-  </div>
+  </div> {% endcomment %}
 
 
   
   {% block body%} {% endblock body %}
       <footer class="font-small bg-dark text-light position:fixed bottom:0">
-        <div class="footer-copyright text-center py-3">
-            &copy; 2023 Copyright
-            <a class="text-decoration-none" href="#">abc.com</a> Designed by ABC
-        </div>
-    </footer>
+        <div class="footer">
+          <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            <span class="text-light"
+              >Copyright &copy; 2024
+              <a class="designer" href="egtender.gov.np">TenderNepal</a>, All right
+              reserved.</span
+            >
+          </div>
+          <div class="col-md-6 my-auto text-center text-md-end text-white">
+            Designed with ☕ & ❤️ by <span class="designer">Lean Coders.</span>
+          </div>
+          <div class="coders">
+            <a
+              class="designer"
+              target="_blank"
+              href="https://www.purushottambhandari.com.np"
+              >Pursottam Bhandari</a
+            >&nbsp;&nbsp;&nbsp;<a
+              class="designer"
+              target="_blank"
+              href="https://www.facebook.com/profile.php?id=100086716277989"
+              >Dipendra Adhikari</a
+            >&nbsp;&nbsp;&nbsp;<a
+              class="designer"
+              target="_blank"
+              href="https://www.facebook.com/phanindrax"
+              >Phanendra Jaisi</a
+            >
+          </div>
+      </div>
+      </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>

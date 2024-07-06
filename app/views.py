@@ -31,20 +31,6 @@ def tender_detail(request, tender_id):
     return render(request, 'tender/tender_detail.html', context)
 
 @login_required(login_url='login')
-# def place_bid(request, tender_id):
-#     if request.method == 'POST':
-#         amount = request.POST.get('amount')
-#         bidder = request.user
-#         tender = Tender.objects.get(id=tender_id)
-#         baseprice = tender.baseprice
-#         if int(amount) < baseprice:
-#             messages.error(request,'Bid must be greater than or equal to the base price!')
-#             return redirect('tender_detail', tender_id=tender_id)
-        
-#         bid = Bid.objects.create(tender=tender, bidder=bidder, amount=amount)
-#         return redirect('tender_detail', tender_id=tender_id)
-#     else:
-#         return render(request, 'tender/place_bid.html', {'tender_id': tender_id})
 def place_bid(request, tender_id):
     tender = get_object_or_404(Tender, id=tender_id)
     
@@ -56,17 +42,42 @@ def place_bid(request, tender_id):
             messages.error(request, 'Invalid bid amount!')
             return redirect('tender_detail', tender_id=tender_id)
 
-        if amount < tender.baseprice:
-            messages.error(request, 'Bid must be greater than or equal to the base price!')
-            return redirect('tender_detail', tender_id=tender_id)
+        if amount >= tender.baseprice:
+            messages.error(request, 'Bid must be less than the base price!')
+            return redirect('place_bid', tender_id=tender_id)
 
         bidder = request.user
-        # Create Bid object with a valid reference to the tender
         bid = Bid.objects.create(tender=tender, bidder=bidder, amount=amount)
         messages.success(request, 'Bid placed successfully!')
         return redirect('tender_detail', tender_id=tender_id)
     
     return render(request, 'tender/place_bid.html', {'tender': tender})
+
+
+
+
+# def place_bid(request, tender_id):
+#     tender = get_object_or_404(Tender, id=tender_id)
+    
+#     if request.method == 'POST':
+#         amount = request.POST.get('amount')
+#         try:
+#             amount = float(amount)
+#         except ValueError:
+#             messages.error(request, 'Invalid bid amount!')
+#             return redirect('tender_detail', tender_id=tender_id)
+
+#         if amount > tender.baseprice:
+#             messages.error(request, 'Bid must be less than or equal to the base price!')
+#             return redirect('tender_detail', tender_id=tender_id)
+
+#         bidder = request.user
+#         # Create Bid object with a valid reference to the tender
+#         bid = Bid.objects.create(tender=tender, bidder=bidder, amount=amount)
+#         messages.success(request, 'Bid placed successfully!')
+#         return redirect('tender_detail', tender_id=tender_id)
+    
+#     return render(request, 'tender/place_bid.html', {'tender': tender})
 
 
 #  to create notification when a bid is won
@@ -96,18 +107,60 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
+# def select_winner(request, tender_id):
+#     # Assuming you have a model named 'Tender' with a 'deadline' field
+#     tender = Tender.objects.get(id=tender_id)
+
+#     # Check if the deadline has passed
+#     if tender.deadline <= timezone.now():
+#         # Get the highest bid for this tender
+#         highest_bid = Bid.objects.filter(tender=tender).order_by('-amount').first()
+
+#         if highest_bid:
+#             winner = highest_bid.bidder
+#             # Update the winner in the database
+#             tender.winner = winner
+#             tender.save()
+
+#             # Send email to the winner
+#             subject = 'Congratulations! You have won the tender.'
+#             html_message = render_to_string('winner_email.html', {'tender': tender})
+#             plain_message = strip_tags(html_message)
+#             from_email = 'adhikaridipendra972@gmail.com'
+#             to_email = winner.email
+#             send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+        
+    
+            
+#             # to send message to user dashboard 
+#             tender_name = tender.title
+#             bid_amount = highest_bid.amount
+#             message = f'Congratulations! You have won the tender "{tender_name}" with a bid amount of ${bid_amount}.'
+#             messages.success(request, message)
+            
+#             # Redirect to the tender detail page
+#             return redirect('tender_detail', tender_id=tender_id)
+#         else:
+#             # No bids submitted
+#             print("No bids submitted for this tender.")
+
+#         # Redirect to the tender detail page
+#         return redirect('tender_detail', tender_id=tender_id)
+#     else:
+#         # Deadline hasn't passed yet
+#         messages.info(request, "The deadline has not been reached.")
+#         return redirect('tender_detail', tender_id=tender_id)
+  
+
+
 def select_winner(request, tender_id):
-    # Assuming you have a model named 'Tender' with a 'deadline' field
     tender = Tender.objects.get(id=tender_id)
 
-    # Check if the deadline has passed
     if tender.deadline <= timezone.now():
-        # Get the highest bid for this tender
-        highest_bid = Bid.objects.filter(tender=tender).order_by('-amount').first()
+        lowest_bid = Bid.objects.filter(tender=tender).order_by('amount').first()
 
-        if highest_bid:
-            winner = highest_bid.bidder
-            # Update the winner in the database
+        if lowest_bid:
+            winner = lowest_bid.bidder
             tender.winner = winner
             tender.save()
 
@@ -119,24 +172,17 @@ def select_winner(request, tender_id):
             to_email = winner.email
             send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
         
-    
-            
-            # to send message to user dashboard 
             tender_name = tender.title
-            bid_amount = highest_bid.amount
+            bid_amount = lowest_bid.amount
             message = f'Congratulations! You have won the tender "{tender_name}" with a bid amount of ${bid_amount}.'
             messages.success(request, message)
             
-            # Redirect to the tender detail page
             return redirect('tender_detail', tender_id=tender_id)
         else:
-            # No bids submitted
             print("No bids submitted for this tender.")
 
-        # Redirect to the tender detail page
         return redirect('tender_detail', tender_id=tender_id)
     else:
-        # Deadline hasn't passed yet
         messages.info(request, "The deadline has not been reached.")
         return redirect('tender_detail', tender_id=tender_id)
     
@@ -225,8 +271,8 @@ def index(request):
 #     tenders = Tender.objects.filter(category=category)
 #     return render(request, 'category.html', {'results': tenders, 'query': category})
 
-def goal(request):
-    return render(request, 'goal.html')
+def about(request):
+    return render(request, 'about.html')
 
 def contact(request):
      if request.method == 'POST':

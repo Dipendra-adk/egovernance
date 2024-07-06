@@ -47,6 +47,15 @@ li {
   border-radius: 5px;
   font-weight: bold;
 }
+.cont{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: auto;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    width: 50%;
+}
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
@@ -65,7 +74,8 @@ li {
 {% endblock %}
 {% block body %}
 <div class="container">
-    <h2>Tender Details:</h2>
+<h2>Tender Details</h2>
+ <div class="cont">   
   <p>Title:{{ tender.title }}</p>
   <p>Description:{{ tender.description }}</p>
   {% comment %} <img src="{{ tender.image.url }}" alt="Tender Image"> {% endcomment %}
@@ -73,28 +83,34 @@ li {
   <p>Open Date: {{tender.created_at}}</p>
   <p>Deadline: {{ tender.deadline }}</p>
   <p>Status: {{ tender.status}}</p>
+ </div>
 
-  <h2>Contractor Detail:</h2>
-  <p>Company Name:{{tender.contractor_company_name}}</p>
+  <h2>Contractor Detail</h2>
+  <div class="cont">
+  <p>Organization Name:{{tender.contractor_company_name}}</p>
   <p>Name:{{tender.contractor_name}}</p>
   <p>Email:{{tender.contractor_email}}</p>
   <p>Phone:{{tender.contractor_phone}}</p>
-
-  <h2>Planning Phase:</h2>
+  </div>
+  {% comment %} <h2>Planning Phase:</h2>
   <p>Phase1 Date:{{tender.planning_phase1_date}}</p>
   <p>Phase1 Payment:{{tender.planning_phase1_payment}}</p>
   <p>Phase2 Date:{{tender.planning_phase2_date}}</p>
   <p>Phase2 Payment:{{tender.planning_phase2_payment}}</p>
   <p>Phase3 Date:{{tender.planning_final_date}}</p>
-  <p>Phase3 Payment:{{tender.planning_final_payment}}</p>
-  <h2>Terms & Conditions:</h2>
+  <p>Phase3 Payment:{{tender.planning_final_payment}}</p> {% endcomment %}
+  <h2>Terms & Conditions</h2>
+  <div class="cont">
   <p>{{tender.terms_and_conditions}}</p>
-  <h3>Bidding done by: </h3>
+  </div>
+  <h3>Bidding done by </h3>
+  <div class="cont">
   <ul>
     {% for bid in bids %}
       <li>{{ bid.bidder.username }} - {{ bid.bidding_time }}</li>
     {% endfor %}
   </ul>
+</div>
   {% comment %} <a href="{% url 'place_bid' tender.id %}">Place Bid</a> {% endcomment %}
 
 {% comment %} <!-- tender_detail.html -->
@@ -116,18 +132,22 @@ li {
 <!-- tender_detail.html -->
 {% if tender.status == 'Closed' %}
 <h3> Winner Information </h3>
+<div class="cont">
     {% if winner %}
         <p>Winner: {{ winner.bidder.username }}</p>
         <p>Winning Bid: Rs: {{ winner.amount }}</p>
     {% else %}
         <p>No winner yet.</p>
     {% endif %}
+</div><br>
     <p>Tender deadline is met and closed.</p>
-{% else %}
+    {% else %}
     <p>Tender is still open.</p>
     <a href="{% url 'place_bid' tender_id=tender.id %}" {% if tender.is_closed %}disabled{% endif %} class="button">Place Bid</a>
 {% endif %}
-<br><br><br><br><br>
+
+<br><br><br><br><br><br><br><br><br><br>
 </div>
+
 
 {% endblock %}

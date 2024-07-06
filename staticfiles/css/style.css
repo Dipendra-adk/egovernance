@@ -1,0 +1,253 @@
+/* HEADER SECTION */
+/* .nav {
+  padding-left:0; 
+  list-style: none;
+}
+
+.navbar{
+  margin-right: auto;
+  height: 100px;
+  padding: 31px 37px;
+  font-size: 20px;
+  line-height: 21px;
+  font-family: fantasy;
+}
+.navbar-nav li {
+  padding-top: 20px;
+}
+
+.sp {
+  color: rgb(132, 255, 0);
+  font-family: fantasy;
+}
+
+  .navbar-nav li a{
+    font-size: larger;
+    border-radius: 10px;
+    width: 0px;
+    height: 30px;
+    text-align: center;
+    margin-left: 40px;
+    font-family: arial rgb(200, 185, 185);
+    color: black;
+  }
+  ul
+  {
+    margin-top:16px;
+  }
+*/
+
+
+
+ /* .main {
+     background: url('/static/images/bg.jpg'); 
+    height: auto;
+  } */
+
+
+
+
+  /*
+  .navbar-right li a:hover {
+    background-color: black;
+  }
+
+  .navbar-right li:nth-child(5),
+  .navbar-right li:nth-child(6) {
+    background-color: rgb(98, 159, 33);
+    border-radius: 15px;
+    margin: 2px;
+  } */
+
+
+
+  nav {
+    background-color: #c73636;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+nav h1 {
+    margin: 0;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav ul li {
+    margin-right: 20px;
+}
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+}
+.search-container input[type="text"] {
+    padding: 6px;
+    border-radius: 5px;
+    border: none;
+}
+.search-container button {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+.signup,
+.login {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+
+
+  /* FOOTER SECTION */
+  /* .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height:100%;
+    width: 100%;
+    color: white;
+    text-align: center;
+    height: 80px;
+    margin-top: 5rem;
+  
+  } */
+ 
+footer {
+background-color: #333;
+color: white;
+text-align: center;
+padding: 10px 0;
+position: fixed;
+bottom: 0;
+width: 100%;
+}
+
+/* CSS to move search bar to the right side of the navbar */
+.d-flex {
+  justify-content: space-between; /* Align items to the start and end of the container */
+  align-items: center; /* Center items vertically */
+}
+
+.search {
+  flex: 2; /* Take up 2/3 of the available space */
+}
+
+/* Additional styles for the search input and button */
+.search form {
+  display: flex; /* Display form elements in a row */
+}
+
+.search input {
+  flex: 1; /* Take up remaining space */
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.search button {
+  padding: 0.5rem 1rem;
+  margin-left: 2.5rem;
+  background-color: #00bf;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+/* Adjust styles for smaller screens */
+.navbar-nav li {
+    padding-top: 10px;
+}
+.spbtns {
+    width: 120px;
+}
+}
+@media (max-width: 768px) {
+/* Adjust styles for smaller screens */
+.navbar-nav li {
+  padding-top: 10px;
+}
+/* Other responsive styles */
+}
+ /* Home page  */
+
+.div {
+    background-image: url("{% static 'images/bg.jpg' %}");
+}
+.welcome-text {
+    width: 600px;
+    height: 0px;
+    position: absolute;
+    top: 20%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #333;
+}
+.welcome-text h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+.welcome-text p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+} 
+/* admin dashboard table design */
+.container {
+  margin: 0 auto; 
+  width: 100%; 
+}
+table {
+  margin: 0 auto;
+  width: 80%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #8e7e7e;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+/* admin add tender css */
+
+.form-container {
+  padding: 80px;
+  border: 1px solid #ccc; /* Add a border for clarity */
+  border-radius: 8px; /* Rounded corners */
+}

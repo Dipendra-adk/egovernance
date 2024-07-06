@@ -26,10 +26,10 @@ li {
     margin-bottom: 10px;
 }
 
-a {
+{% comment %} a {
     text-decoration: none;
     color: #333; 
-}
+} {% endcomment %}
 .button {
   display: inline-block;
   padding: 10px 20px;
@@ -39,6 +39,17 @@ a {
   border-radius: 5px;
   font-weight: bold;
 }
+.cont{
+  border: 2px solid #ccc;
+  padding: 15px;
+  margin: 10px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  width: 650px;
+  {% comment %} margin: auto; {% endcomment %}
+}
+
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
@@ -56,15 +67,20 @@ a {
 <div class="container">
   <h2> Available Tenders</h2>
   <hr>
+
   <ul>
     {% for tender in tenders %}
+    <div class="cont">
       {% comment %} <img src="{{ tender.image.url }}" alt="{{ tender.title }}">  {% endcomment %}
       <li><h3><b>Title:</b> {{ tender.title }}</h3>
          <h4><b>Company Name:</b> {{ tender.contractor_company_name }}</h4>
         <a href="{% url 'tender_detail' tender.id %}" class="button">View Detail</a></li>
       {% comment %} <li><a href="{% url 'tender_detail' tender.id %}" class="button">{{ tender.title }}</a></li> {% endcomment %}
+    </div>
     {% endfor %}
   </ul>
+
+
   <br><br><br><br><br>
 </div>
 {% endblock %}

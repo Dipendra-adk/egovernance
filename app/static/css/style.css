@@ -1,24 +1,20 @@
 /* HEADER SECTION */
-/* .nav {
-    padding-left:0; 
-    list-style: none;
-  }
-  .navbar-brand {
-    margin-right: auto;
-    height: 100px;
-    padding: 31px 37px;
-    font-size: 20px;
-    line-height: 21px;
-    font-family: fantasy;
-  }
-  .navbar-nav li {
-    padding-top: 20px;
-  }
+/*.navbar{
+  margin-right: auto;
+  height: 100px;
+  padding: 31px 37px;
+  font-size: 20px;
+  line-height: 21px;
+  font-family: fantasy;
+}
+.navbar-nav li {
+  padding-top: 20px;
+}
 
-  .sp {
-    color: rgb(132, 255, 0);
-    font-family: fantasy;
-  }
+.sp {
+  color: rgb(132, 255, 0);
+  font-family: fantasy;
+}
 
   .navbar-nav li a{
     font-size: larger;
@@ -33,8 +29,8 @@
   ul
   {
     margin-top:16px;
-  } */
-
+  }
+*/
 
 
 
@@ -46,7 +42,7 @@
 
 
 
-/*   
+  /*
   .navbar-right li a:hover {
     background-color: black;
   }
@@ -60,81 +56,76 @@
 
 
 
-/* HEADER SECTION */
-.navbar-nav {
-  padding-left: 0;
-  list-style: none;
+  nav {
+    background-color: rgb(213, 200, 175);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 10px 20px;
+    list-style: none;
+}
+nav h1 {
+    margin: 0;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0 0 0 70px;
+    padding: 10px;
+    display: flex;
+}
+nav ul li {
+    margin-right: 20px;
+    padding: 0 10px;
+    font-size: 20px;
 }
 
-.navbar-brand {
-  margin-right: auto;
-  height: 100px;
-  padding: 31px 37px;
-  font-size: 20px;
-  line-height: 21px;
-  font-family: fantasy;
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 50px;
+}
+.search-container input[type="text"] {
+    padding: 6px;
+    border-radius: 5px;
+    border: none;
+}
+.search-container button {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
 }
 
-.navbar-nav li {
-  padding-top: 30px;
-}
-
-.sp {
-  color: rgb(132, 255, 0);
-  font-family: fantasy;
-}
-
-.navbar-nav li a {
-  font-size: larger;
-  border-radius: 10px;
-  width: 0px;
-  height: 30px;
-  text-align: center;
-  margin-left: 40px;
-  font-family: arial rgb(200, 185, 185);
-  color: black;
-}
-
-.navbar-nav {
-  margin-top: 16px;
-}
-
-.navbar-nav li a:hover {
+.search-container button:hover{
   background-color: black;
 }
-
-.navbar-nav li:nth-child(5),
-.navbar-nav li:nth-child(6) {
-  background-color: rgb(98, 159, 33);
-  border-radius: 15px;
-  margin: 2px;
+.signup,
+.login {
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 20px;
+}
+.dropdown-menu {
+  /* Set fixed width and height */
+  width: 50px; /* Adjust as needed */
+  max-height: 300px; /* Adjust as needed */
+  overflow-y: auto; /* Add scroll if content exceeds max height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Search Bar */
-.search {
-  flex: 2;
+.dropdown-item {
+  /* Other styles for dropdown items */
+  color: #333;
 }
-
-.search form {
-  display: flex;
-}
-
-.search input[type="search"] {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-}
-
-.search button {
-  padding: 0.5rem 1rem;
-  margin-left: 2.5rem;
-  background-color: #00bf;
-  color: #fff;
-  border: none;
-  border-radius: 1rem;
-}
-
 
 
   /* FOOTER SECTION */
@@ -159,6 +150,12 @@ padding: 10px 0;
 position: fixed;
 bottom: 0;
 width: 100%;
+}
+.footer .row .designer{
+  color: #4CAF50;
+}
+.footer .row .coders{
+  justify-content: space-between;
 }
 
 /* CSS to move search bar to the right side of the navbar */
@@ -276,4 +273,67 @@ th {
   padding: 80px;
   border: 1px solid #ccc; /* Add a border for clarity */
   border-radius: 8px; /* Rounded corners */
+}
+
+/* contact --------------------------------------------------------*/
+/* Container for contact section */
+.container-fluid.contact {
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Inner container */
+.container.contact {
+  padding-top: 5rem; /* Adjust top padding as needed */
+  padding-bottom: 5rem; /* Adjust bottom padding as needed */
+}
+
+/* Alert message */
+.alert-success {
+  background-color: #d4edda; /* Greenish background */
+  color: #155724; /* Dark green text */
+}
+
+/* Contact form section */
+.bg-light.rounded {
+  background-color: #ffffff; /* White background */
+  padding: 2rem; /* Padding around the form */
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+/* Text centering */
+.text-center.mx-auto {
+  max-width: 700px; /* Limiting maximum width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contact form inputs */
+.form-control {
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 0.25rem; /* Slight border radius */
+}
+
+/* Submit button */
+.btn {
+  background-color: #ffffff; /* White background */
+  color: #007bff; /* Blue text */
+  border: 1px solid #007bff; /* Blue border */
+  border-radius: 0.25rem; /* Slight border radius */
+}
+
+.btn:hover {
+  background-color: #007bff; /* Blue background on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+/* Address, mail, telephone */
+.bg-white.rounded {
+  background-color: #ffffff; /* White background */
+  padding: 1rem; /* Padding around each box */
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+/* Icon color */
+.text-primary {
+  color: #007bff; /* Blue color */
 }
